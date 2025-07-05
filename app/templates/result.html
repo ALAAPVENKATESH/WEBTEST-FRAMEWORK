@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Test Results</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 30px; background: #f6f8fa; }
+        h1 { color: #333; }
+        .section { background: #fff; padding: 20px; margin-bottom: 20px; border-radius: 10px; box-shadow: 0 0 10px #ddd; }
+        .status-ok { color: green; }
+        .status-bad { color: red; }
+        .status-warn { color: orange; }
+        ul { padding-left: 20px; }
+        .link-box { margin-bottom: 8px; }
+        .button { margin-top: 30px; }
+    </style>
+</head>
+<body>
+
+    <h1>Test Results for {{ results.tested_url }}</h1>
+
+    <div class="section">
+        <h2>🔗 Link Testing</h2>
+        <p>Total Links: {{ results.total_links }}</p>
+        <p class="status-ok">Valid Links: {{ results.valid_links }}</p>
+        <p class="{% if results.broken_links > 0 %}status-bad{% else %}status-ok{% endif %}">
+            Broken Links: {{ results.broken_links }}
+        </p>
+
+        {% if results.broken_links > 0 %}
+            <h4>Broken Link Details:</h4>
+            <ul>
+                {% for link in results.broken_list %}
+                    <li class="status-bad">{{ link.url }} → {{ link.status }}</li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p class="status-ok">✅ No broken links found!</p>
+        {% endif %}
+    </div>
+
+    <div class="section">
+        <h2>⏱️ Page Load Time</h2>
+        {% if load_result.load_time_ms %}
+            <p>Load Time: {{ load_result.load_time_ms }} ms</p>
+        {% elif load_result.error %}
+             <p>{{ load_result.error }}</p>
+        {% else %}
+    <p>⚠️ Load time not available.</p>
+        {% endif %}
+    </div>
+
+    <div class="section">
+        <h2>🧱 UI Element Presence</h2>
+        {% if ui_result.error %}
+            <p class="status-bad">⚠️ {{ ui_result.error }}</p>
+        {% else %}
+            <p>Navbar: {{ "✅" if ui_result.navbar else "❌" }}</p>
+            <p>Footer: {{ "✅" if ui_result.footer else "❌" }}</p>
+            <p>Button: {{ "✅" if ui_result.button else "❌" }}</p>
+            <p>Form: {{ "✅" if ui_result.form else "❌" }}</p>
+        {% endif %}
+    </div>
+
+    <div class="button">
+        <a href="/" style="text-decoration: none; font-size: 16px;">🔁 Run another test</a>
+    </div>
+
+</body>
+</html>
