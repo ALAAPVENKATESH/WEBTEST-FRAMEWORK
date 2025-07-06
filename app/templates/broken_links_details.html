@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Broken Links Details - WebTest Framework</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:700,400&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Montserrat', Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            background: #fff;
+            border-radius: 18px;
+            box-shadow: 0 8px 32px rgba(102,126,234,0.15);
+            padding: 40px 32px 32px 32px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        h1 {
+            font-size: 2em;
+            font-weight: 700;
+            color: #5a4fcf;
+            margin-bottom: 10px;
+        }
+        .tested-url {
+            color: #333;
+            font-size: 1.1em;
+            margin-bottom: 20px;
+        }
+        .summary-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        .stat-card {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+        }
+        .stat-number {
+            font-size: 2em;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+        .stat-high { color: #e74c3c; }
+        .stat-medium { color: #f39c12; }
+        .stat-low { color: #3498db; }
+        .stat-label {
+            color: #666;
+            font-size: 0.9em;
+        }
+        .broken-links-list {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        .broken-link-card {
+            background: #fff;
+            border: 2px solid #e1e8ed;
+            border-radius: 12px;
+            padding: 20px;
+            transition: all 0.3s ease;
+        }
+        .broken-link-card:hover {
+            border-color: #3498db;
+            box-shadow: 0 4px 12px rgba(52, 152, 219, 0.1);
+        }
+        .link-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 15px;
+            gap: 15px;
+        }
+        .link-url {
+            font-weight: 600;
+            color: #2c3e50;
+            word-break: break-all;
+            flex: 1;
+        }
+        .link-status {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 5px;
+        }
+        .status-badge {
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-size: 0.8em;
+            font-weight: 600;
+            color: white;
+            text-align: center;
+        }
+        .status-high { background: #e74c3c; }
+        .status-medium { background: #f39c12; }
+        .status-low { background: #3498db; }
+        .error-category {
+            font-size: 0.75em;
+            color: #7f8c8d;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .error-description {
+            color: #34495e;
+            margin-bottom: 15px;
+            font-size: 0.95em;
+            line-height: 1.5;
+            padding: 12px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border-left: 4px solid #3498db;
+        }
+        .suggestions-section {
+            background: #fef9e7;
+            border: 1px solid #f39c12;
+            border-radius: 8px;
+            padding: 15px;
+        }
+        .suggestions-title {
+            color: #d68910;
+            font-weight: 600;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .suggestions-list {
+            margin: 0;
+            padding-left: 20px;
+        }
+        .suggestions-list li {
+            color: #5a6c7d;
+            margin-bottom: 6px;
+            line-height: 1.4;
+        }
+        .actions {
+            text-align: center;
+            margin-top: 30px;
+        }
+        .btn {
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            padding: 12px 28px;
+            font-size: 1.1em;
+            font-weight: 700;
+            cursor: pointer;
+            margin: 0 8px;
+            transition: background 0.2s, transform 0.2s;
+            text-decoration: none;
+            display: inline-block;
+        }
+        .btn:hover {
+            background: linear-gradient(90deg, #5a4fcf 0%, #764ba2 100%);
+            transform: translateY(-2px) scale(1.02);
+        }
+        .btn-secondary {
+            background: #95a5a6;
+        }
+        .btn-secondary:hover {
+            background: #7f8c8d;
+        }
+        .severity-indicator {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+        .severity-high-indicator { background: #e74c3c; }
+        .severity-medium-indicator { background: #f39c12; }
+        .severity-low-indicator { background: #3498db; }
+        
+        @media (max-width: 768px) {
+            .container { padding: 20px; }
+            .link-header { flex-direction: column; align-items: flex-start; }
+            .link-status { align-items: flex-start; }
+            .summary-stats { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🔗 Broken Links Analysis</h1>
+            <div class="tested-url">Tested: <b>{{ tested_url }}</b></div>
+        </div>
+
+        <div class="summary-stats">
+            {% set high_count = broken_links | selectattr('error_details.severity', 'equalto', 'high') | list | length %}
+            {% set medium_count = broken_links | selectattr('error_details.severity', 'equalto', 'medium') | list | length %}
+            {% set low_count = broken_links | selectattr('error_details.severity', 'equalto', 'low') | list | length %}
+            
+            <div class="stat-card">
+                <div class="stat-number stat-high">{{ high_count }}</div>
+                <div class="stat-label">High Severity</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number stat-medium">{{ medium_count }}</div>
+                <div class="stat-label">Medium Severity</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number stat-low">{{ low_count }}</div>
+                <div class="stat-label">Low Severity</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" style="color: #2c3e50;">{{ broken_links | length }}</div>
+                <div class="stat-label">Total Broken Links</div>
+            </div>
+        </div>
+
+        <div class="broken-links-list">
+            {% for link in broken_links %}
+            <div class="broken-link-card">
+                <div class="link-header">
+                    <div class="link-url">{{ link.url }}</div>
+                    <div class="link-status">
+                        <span class="status-badge status-{{ link.error_details.severity }}">
+                            {{ link.status }}
+                        </span>
+                        <div class="error-category">
+                            <span class="severity-indicator severity-{{ link.error_details.severity }}-indicator"></span>
+                            {{ link.error_details.category.replace('_', ' ').title() }}
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="error-description">
+                    {{ link.error_details.description }}
+                </div>
+                
+                <div class="suggestions-section">
+                    <div class="suggestions-title">
+                        💡 How to Fix This Issue
+                    </div>
+                    <ul class="suggestions-list">
+                        {% for suggestion in link.error_details.suggestions %}
+                        <li>{{ suggestion }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <div class="actions">
+            <a href="/" class="btn">🏠 Back to Home</a>
+            <a href="javascript:history.back()" class="btn btn-secondary">⬅️ Back to Results</a>
+        </div>
+    </div>
+</body>
+</html> 

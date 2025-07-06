@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test History - Advanced Website Tester</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        
+        .content {
+            padding: 40px;
+        }
+        
+        .history-item {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 20px;
+            border: 1px solid #e1e5e9;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .history-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+        
+        .history-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .history-url {
+            font-size: 1.3em;
+            font-weight: 600;
+            color: #333;
+        }
+        
+        .history-score {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-weight: 600;
+            font-size: 1.2em;
+        }
+        
+        .history-date {
+            color: #666;
+            font-size: 0.9em;
+            margin-top: 5px;
+        }
+        
+        .history-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .detail-item {
+            text-align: center;
+            padding: 15px;
+            background: white;
+            border-radius: 10px;
+            border: 1px solid #e1e5e9;
+        }
+        
+        .detail-label {
+            font-size: 0.9em;
+            color: #666;
+            margin-bottom: 5px;
+        }
+        
+        .detail-value {
+            font-size: 1.2em;
+            font-weight: 600;
+            color: #333;
+        }
+        
+        .history-actions {
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+        }
+        
+        .btn {
+            padding: 8px 15px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            transition: transform 0.3s ease;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+        }
+        
+        .btn-success {
+            background: #28a745;
+            color: white;
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #666;
+        }
+        
+        .empty-state h2 {
+            margin-bottom: 20px;
+            color: #333;
+        }
+        
+        .back-btn {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px 30px;
+            text-decoration: none;
+            border-radius: 10px;
+            font-weight: 600;
+            margin-top: 20px;
+            transition: transform 0.3s ease;
+        }
+        
+        .back-btn:hover {
+            transform: translateY(-2px);
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                margin: 10px;
+                border-radius: 15px;
+            }
+            
+            .content {
+                padding: 20px;
+            }
+            
+            .header h1 {
+                font-size: 2em;
+            }
+            
+            .history-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+            
+            .history-details {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .history-actions {
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📋 Test History</h1>
+            <p>Your previous website test results</p>
+        </div>
+        
+        <div class="content">
+            {% if test_history %}
+                {% for test in test_history %}
+                <div class="history-item">
+                    <div class="history-header">
+                        <div>
+                            <div class="history-url">{{ test.url }}</div>
+                            <div class="history-date">{{ test.timestamp[:19].replace('T', ' ') }}</div>
+                        </div>
+                        <div class="history-score">{{ test.overall_score }}/100</div>
+                    </div>
+                    
+                    <div class="history-details">
+                        <div class="detail-item">
+                            <div class="detail-label">Links</div>
+                            <div class="detail-value">
+                                {% if test.link_results.error %}
+                                    Error
+                                {% else %}
+                                    {{ test.link_results.valid_links }}/{{ test.link_results.total_links }}
+                                {% endif %}
+                            </div>
+                        </div>
+                        
+                        <div class="detail-item">
+                            <div class="detail-label">Performance</div>
+                            <div class="detail-value">
+                                {% if test.performance_results.load_time_ms %}
+                                    {{ test.performance_results.load_time_ms }}ms
+                                {% else %}
+                                    Error
+                                {% endif %}
+                            </div>
+                        </div>
+                        
+                        <div class="detail-item">
+                            <div class="detail-label">SEO Grade</div>
+                            <div class="detail-value">
+                                {% if test.seo_results.seo_grade %}
+                                    {{ test.seo_results.seo_grade }}
+                                {% else %}
+                                    Error
+                                {% endif %}
+                            </div>
+                        </div>
+                        
+                        <div class="detail-item">
+                            <div class="detail-label">Security</div>
+                            <div class="detail-value">
+                                {% if test.security_results.security_grade %}
+                                    {{ test.security_results.security_grade }}
+                                {% else %}
+                                    Error
+                                {% endif %}
+                            </div>
+                        </div>
+                        
+                        <div class="detail-item">
+                            <div class="detail-label">Images</div>
+                            <div class="detail-value">
+                                {% if test.image_results.image_grade %}
+                                    {{ test.image_results.image_grade }}
+                                {% else %}
+                                    Error
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="history-actions">
+                        <a href="/export/{{ loop.index0 }}" class="btn btn-success" target="_blank">📄 Export JSON</a>
+                        <a href="/?url={{ test.url }}" class="btn btn-primary">🔄 Retest</a>
+                    </div>
+                </div>
+                {% endfor %}
+            {% else %}
+                <div class="empty-state">
+                    <h2>No test history yet</h2>
+                    <p>Start by testing your first website to see results here!</p>
+                    <a href="/" class="back-btn">🚀 Start Testing</a>
+                </div>
+            {% endif %}
+            
+            {% if test_history %}
+                <div style="text-align: center; margin-top: 30px;">
+                    <a href="/" class="back-btn">🏠 Back to Home</a>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html> 

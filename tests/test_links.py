@@ -162,7 +162,10 @@ def get_link_error_details(status_code, url):
     
     return error_info
 
-def test_broken_links(url, driver_path):
+def test_broken_links(url, driver_path=None):
+    # Use the local Windows path for ChromeDriver by default
+    if driver_path is None:
+        driver_path = "C:/Users/SHREYA/Downloads/chromedriver-win64/chromedriver-win64/chromedriver.exe"
     service = Service(driver_path)
     options = webdriver.ChromeOptions()
     options.add_argument('--headless')
