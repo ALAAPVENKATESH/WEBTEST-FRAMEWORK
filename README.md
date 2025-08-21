@@ -161,11 +161,3 @@ Feel free to contribute by:
 - Enhancing scoring algorithms
 - Adding new features
 
-## 📄 License
-
-This project is open source and available under the MIT License.
-
----
-
-**Built with ❤️ for better web testing**
->>>>>>> 13094522e5fa053ca3479b4b20e3ef7eb0d66f3b
