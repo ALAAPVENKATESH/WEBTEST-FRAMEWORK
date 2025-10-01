@@ -1,55 +1,55 @@
-# 🚀 Advanced Website Testing Tool
+#  Advanced Website Testing Tool
 
 A comprehensive Flask web application that provides detailed analysis of websites including SEO, Security, Performance, and more.
 
-## ✨ Features
+##  Features
 
-### 🔗 **Link Testing**
+###  **Link Testing**
 - Find broken links and validate all URLs
 - Check link status codes
 - Identify redirect chains
 
-### ⚡ **Performance Analysis**
+###  **Performance Analysis**
 - Measure page load time
 - Performance grading (A-F)
 - Speed recommendations
 
-### 🎯 **SEO Analysis**
+###  **SEO Analysis**
 - Meta tag analysis (title, description, keywords)
 - Open Graph and Twitter Card detection
 - Mobile-friendliness check
 - Canonical URL verification
 - SEO scoring and recommendations
 
-### 🔒 **Security Testing**
+###  **Security Testing**
 - HTTPS verification
 - Security headers analysis
 - HSTS, CSP, X-Frame-Options checks
 - Security grading and recommendations
 
-### 🖼️ **Image Analysis**
+###  **Image Analysis**
 - Broken image detection
 - Alt text validation
 - Image optimization recommendations
 
-### 📱 **UI Element Detection**
+###  **UI Element Detection**
 - Navbar, footer, button, form detection
 - UI completeness scoring
 
-### 📊 **Advanced Analytics**
+###  **Advanced Analytics**
 - Overall website scoring (0-100)
 - Grade-based evaluation (A-F)
 - Detailed recommendations
 - Test history and comparison
 
-### 🎨 **Modern UI/UX**
+###  **Modern UI/UX**
 - Beautiful gradient design
 - Responsive layout
 - Progress indicators
 - Interactive elements
 - Mobile-friendly interface
 
-### 📋 **Test Management**
+###  **Test Management**
 - Test history storage
 - Export results as JSON
 - API endpoints for programmatic access
@@ -69,7 +69,7 @@ python main.py
 
 3. **Open your browser and go to:** `http://localhost:5000`
 
-## 📖 Usage
+##  Usage
 
 ### Web Interface
 1. Enter a website URL in the input field
@@ -84,7 +84,7 @@ curl -X POST http://localhost:5000/api/test \
   -d '{"url": "https://example.com"}'
 ```
 
-## 📁 Project Structure
+##  Project Structure
 
 ```
 webtest-framework/
@@ -107,13 +107,13 @@ webtest-framework/
     └── test_images.py     # Image analysis
 ```
 
-## 🔧 Dependencies
+##  Dependencies
 
 - **Flask** - Web framework
 - **Requests** - HTTP library
 - **BeautifulSoup4** - HTML parsing
 
-## 🎯 Scoring System
+##  Scoring System
 
 ### Overall Score (0-100)
 - **90-100**: Excellent (A)
@@ -125,7 +125,7 @@ webtest-framework/
 ### Individual Test Grades
 Each test category (SEO, Security, Images, etc.) receives its own grade based on specific criteria.
 
-## 🚀 Advanced Features
+##  Advanced Features
 
 ### Test History
 - Automatic storage of test results
@@ -142,7 +142,7 @@ Each test category (SEO, Security, Images, etc.) receives its own grade based on
 - Modern gradient UI
 - Interactive hover effects
 
-## 🔮 Future Enhancements
+##  Future Enhancements
 
 - [ ] Batch URL testing
 - [ ] PDF report generation
@@ -153,7 +153,7 @@ Each test category (SEO, Security, Images, etc.) receives its own grade based on
 - [ ] Mobile responsiveness testing
 - [ ] Database integration
 
-## 🤝 Contributing
+##  Contributing
 
 Feel free to contribute by:
 - Adding new test modules
